@@ -1,0 +1,45 @@
+[package]
+name = "midnight-kms"
+version = "0.1.0"
+edition = "2024"
+description = "Attestation-gated validator key release for midnight-node on GCP Confidential Space"
+publish = false
+
+[dependencies]
+# Volatile, non-elidable zeroization. Do NOT replace with hand-rolled loops:
+# LLVM is free to delete a plain `for b in buf { *b = 0 }` before a free().
+zeroize = "1"
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+log = "0.4"
+libc = "0.2"
+base64 = "0.22"
+
+# default-features = false keeps native-tls out of the tree entirely.
+# rustls-tls bundles Mozilla roots, so trust does not depend on the
+# container's cert store.
+reqwest = { version = "0.12", default-features = false, features = [
+    "blocking",
+    "rustls-tls",
+] }
+
+# Substrate keystore adapter. Off by default so the security-critical core
+# builds standalone without pulling in polkadot-sdk. (`cargo test` still
+# compiles sc-keystore: Cargo has no optional dev-dependencies.)
+sp-core = { version = "43", optional = true }
+sp-keystore = { version = "0.49", optional = true }
+
+[features]
+default = []
+substrate = ["dep:sp-core", "dep:sp-keystore"]
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+
+[lints.clippy]
+undocumented_unsafe_blocks = "warn"
+
+[dev-dependencies]
+sc-keystore = "42.0.0"
+tempfile = "3.27.0"

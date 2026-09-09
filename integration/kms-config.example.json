@@ -1,0 +1,33 @@
+{
+  "wip_audience": "//iam.googleapis.com/projects/123456789012/locations/global/workloadIdentityPools/midnight-validator-01-tee/providers/confidential-space",
+  "chain_id": "midnight-mainnet",
+
+  "require_mlock": false,
+  "set_not_dumpable": true,
+  "refuse_if_traced": true,
+  "timeout_secs": 20,
+
+  "keys": [
+    {
+      "role": "aura",
+      "kms_key": "projects/midnight-prod/locations/europe-west4/keyRings/midnight-validator-01-validator-keys/cryptoKeys/midnight-validator-01-aura-seed",
+      "ciphertext_path": "/etc/midnight/seeds/aura.enc",
+      "encoding": "raw32",
+      "expected_public_key": "0x0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "role": "grandpa",
+      "kms_key": "projects/midnight-prod/locations/europe-west4/keyRings/midnight-validator-01-validator-keys/cryptoKeys/midnight-validator-01-grandpa-seed",
+      "ciphertext_path": "/etc/midnight/seeds/grandpa.enc",
+      "encoding": "raw32",
+      "expected_public_key": "0x0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "role": "cross_chain",
+      "kms_key": "projects/midnight-prod/locations/europe-west4/keyRings/midnight-validator-01-validator-keys/cryptoKeys/midnight-validator-01-cross-chain-seed",
+      "ciphertext_path": "/etc/midnight/seeds/cross-chain.enc",
+      "encoding": "suri",
+      "expected_public_key": "0x000000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}
